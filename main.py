@@ -12,12 +12,11 @@ from fastapi.templating import Jinja2Templates
 
 app = FastAPI()
 
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory=".")
 
 @app.get("/")
 def home(request: Request):
     return templates.TemplateResponse("home.html", {"request": request})
-app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
