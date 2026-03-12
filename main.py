@@ -10,6 +10,9 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 app = FastAPI()
+@app.get("/")
+def home():
+    return {"message":"Attendance Managament System Running"}
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
