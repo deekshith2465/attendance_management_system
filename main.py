@@ -5,14 +5,20 @@ conn = sqlite3.connect("Attendance.db", check_same_thread=False)
 
 cursor = conn.cursor()
 
-from fastapi import FastAPI
+from fastapi import FastAPI,Request
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
+from fastapi.templating import Jinja2Templates
 
 app = FastAPI()
+
+templates = Jinja2Templates(directory="templates")
+
 @app.get("/")
-def home():
-    return {"message":"Attendance Managament System Running"}
+def home(request: Request):
+    return templates.TemplateResponse("home.html", {"request": request})
+app = FastAPI()
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
