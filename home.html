@@ -1,0 +1,85 @@
+<!DOCTYPE html><html>
+<head>
+<title>Attendance System</title><style>
+
+body{
+font-family: Arial;
+text-align:center;
+margin-top:80px;
+}
+
+input{
+padding:10px;
+margin:10px;
+font-size:16px;
+}
+
+button{
+padding:10px 20px;
+font-size:16px;
+}
+
+.section{
+border:1px solid #ccc;
+padding:20px;
+margin:20px auto;
+width:300px;
+border-radius:8px;
+}
+
+</style></head><body><h1>Attendance Management System</h1><div class="section"><h3>Student Attendance</h3><input type="number" id="roll" placeholder="Enter Roll Number"><br><button onclick="checkAttendance()">Check Attendance</button>
+
+<p id="result"></p></div><div class="section"><h3>Admin Login</h3><input type="password" id="password" placeholder="Enter Admin Password"><br><button onclick="adminLogin()">Login</button>
+
+<p id="login_msg"></p></div><script>
+
+async function checkAttendance(){
+
+let roll = document.getElementById("roll").value
+
+let response = await fetch(`http://127.0.0.1:8000/details/${roll}`)
+
+let data = await response.json()
+
+if(data.message){
+document.getElementById("result").innerText = data.message
+}
+else{
+
+document.getElementById("result").innerHTML =
+"Attended Hours: " + data.attended_hours + "<br>" +
+"Total Hours: " + data.total_hours + "<br>" +
+"Attendance %: " + data.attendance_percentage
+
+}
+
+}
+
+
+async function adminLogin(){
+
+let pass = document.getElementById("password").value
+
+let response = await fetch("http://127.0.0.1:8000/auth",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+password: parseInt(pass)
+})
+})
+
+let data = await response.json()
+
+if(data.message === "login successful"){
+window.location.href = "admin.html"
+}
+else{
+document.getElementById("login_msg").innerText = "Invalid Password"
+}
+
+}
+
+</script></body>
+</html>
