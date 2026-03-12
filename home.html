@@ -37,7 +37,7 @@ async function checkAttendance(){
 
 let roll = document.getElementById("roll").value
 
-let response = await fetch(`http://127.0.0.1:8000/details/${roll}`)
+let response = await fetch(`/details/${roll}`)
 
 let data = await response.json()
 
@@ -60,7 +60,7 @@ async function adminLogin(){
 
 let pass = document.getElementById("password").value
 
-let response = await fetch("http://127.0.0.1:8000/auth",{
+let response = await fetch("/auth",{
 method:"POST",
 headers:{
 "Content-Type":"application/json"
