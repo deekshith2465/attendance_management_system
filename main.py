@@ -4,7 +4,7 @@ import sqlite3
 conn = sqlite3.connect("Attendance.db", check_same_thread=False)
 
 cursor = conn.cursor()
-
+from fastapi.responses import FileResponse
 from fastapi import FastAPI,Request
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
@@ -26,7 +26,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
-
+@app.get("/admin.html")
+def admin_page():
+    return FileResponse("admin.html")
 @app.get("/details/{rno}")
 def attendance_view(rno : int):
     cursor.execute("""
