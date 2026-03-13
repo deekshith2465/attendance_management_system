@@ -67,7 +67,7 @@ def update_total(data1 : Update):
     return {"message" : "Total hours updated"}
 
 class updatereal(BaseModel):
-    roll : int
+    roll_no : int
     hours : int
 @app.post("/updated_attendance")
 def last(data2 : updatereal):

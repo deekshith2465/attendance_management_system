@@ -1,0 +1,80 @@
+<!DOCTYPE html><html>
+<head>
+<title>Admin Dashboard</title><style>
+body{
+font-family: Arial;
+text-align:center;
+margin-top:50px;
+}
+
+.section{
+border:1px solid #ccc;
+padding:20px;
+margin:20px auto;
+width:350px;
+border-radius:8px;
+}
+
+input{
+padding:8px;
+margin:10px;
+}
+
+button{
+padding:8px 20px;
+cursor:pointer;
+}
+</style></head><body><h1>Admin Attendance Panel</h1><!-- Phase 1 --><div class="section">
+<h3>Update Total Hours</h3><input type="number" id="total_hours" placeholder="Enter hours to add"><br><button onclick="updateTotal()">Update Total Hours</button>
+
+<p id="total_msg"></p>
+</div><!-- Phase 2 --><div class="section">
+<h3>Update Student Attendance</h3><input type="number" id="roll_no" placeholder="Enter Roll Number"><br><input type="number" id="attended_hours" placeholder="Enter Attended Hours"><br><button onclick="updateAttendance()">Submit Attendance</button>
+
+<p id="att_msg"></p></div><script>
+
+async function updateTotal(){
+
+let hours = document.getElementById("total_hours").value
+
+let response = await fetch("/update_total",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+hours: parseInt(hours)
+})
+})
+
+let data = await response.json()
+
+document.getElementById("total_msg").innerText = data.message
+
+}
+
+
+async function updateAttendance(){
+
+let roll = document.getElementById("roll_no").value
+let hours = document.getElementById("attended_hours").value
+
+let response = await fetch("/updated_attendance",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+roll_no: parseInt(roll),
+hours: parseInt(hours)
+})
+})
+
+let data = await response.json()
+
+document.getElementById("att_msg").innerText = data.message
+
+}
+
+</script></body>
+</html>
