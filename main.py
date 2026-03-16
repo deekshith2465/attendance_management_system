@@ -1,7 +1,7 @@
 
-import sqlite3
+import psycopg2
 
-conn = sqlite3.connect("Attendance.db", check_same_thread=False)
+conn = psycopg2.connect("postgresql://attendance_db_tezb_user:iO8Xaub1Z0g98jtTkyKb1ZD9U3mxwGmi@dpg-d6rsnup4tr6s73aajk40-a.oregon-postgres.render.com/attendance_db_tezb")
 
 cursor = conn.cursor()
 from fastapi.responses import FileResponse
@@ -33,7 +33,7 @@ def admin_page():
 def attendance_view(rno : int):
     cursor.execute("""
                    SELECT attended_hours,total_hours,
-                   percentage FROM attendance WHERE r_no = ? """,(rno,))
+                   percentage FROM attendance WHERE r_no = %s """,(rno,))
     result = cursor.fetchone()
     if  result:
         return {
@@ -62,7 +62,7 @@ class Update(BaseModel):
 @app.post("/update_total")
 def update_total(data1 : Update):
     cursor.execute("""
-                   UPDATE attendance SET total_hours = total_hours + ?""",(data1.total,))
+                   UPDATE attendance SET total_hours = total_hours + %s""",(data1.total,))
     conn.commit()
     return {"message" : "Total hours updated"}
 
@@ -72,7 +72,7 @@ class updatereal(BaseModel):
 @app.post("/updated_attendance")
 def last(data2 : updatereal):
     cursor.execute("""
-                   UPDATE attendance SET attended_hours = attended_hours + ? WHERE r_no = ? """,(data2.hours,data2.roll_no))
+                   UPDATE attendance SET attended_hours = attended_hours + %s WHERE r_no = ? """,(data2.hours,data2.roll_no))
     conn.commit()
     return {"message" : "Attendance updated"}
     
