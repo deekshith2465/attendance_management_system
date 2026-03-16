@@ -72,7 +72,7 @@ class updatereal(BaseModel):
 @app.post("/updated_attendance")
 def last(data2 : updatereal):
     cursor.execute("""
-                   UPDATE attendance SET attended_hours = attended_hours + %s WHERE r_no = ? """,(data2.hours,data2.roll_no))
+                   UPDATE attendance SET attended_hours = attended_hours + %s WHERE r_no = %s """,(data2.hours,data2.roll_no))
     conn.commit()
     return {"message" : "Attendance updated"}
     
