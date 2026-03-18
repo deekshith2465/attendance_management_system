@@ -4,12 +4,13 @@ import os
 conn = psycopg2.connect("postgresql://attendance_db_tezb_user:iO8Xaub1Z0g98jtTkyKb1ZD9U3mxwGmi@dpg-d6rsnup4tr6s73aajk40-a.oregon-postgres.render.com/attendance_db_tezb")
 cursor = conn.cursor()
 cursor.execute("""
-CREATE TABLE IF NOT EXISTS attendance (
+CREATE TABLE attendance (
     r_no INTEGER PRIMARY KEY,
     attended_hours INTEGER,
     total_hours INTEGER,
-    percentage NUMERIC(5,2) GENERATED ALWAYS AS (
-        (attended_hours * 100.0) / NULLIF(total_hours,0)
+    percentage NUMERIC(5,2)
+    GENERATED ALWAYS AS (
+        (attended_hours::NUMERIC * 100) / NULLIF(total_hours,0)
     ) STORED
 );
 students = [
