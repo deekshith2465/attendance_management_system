@@ -8,8 +8,10 @@ CREATE TABLE IF NOT EXISTS attendance (
     r_no INTEGER PRIMARY KEY,
     attended_hours INTEGER,
     total_hours INTEGER,
-    percentage FLOAT GENERATED ALWAYS AS ((attended_hours*100.0)/NULLIF(total_hours,0))STORED);
-""")
+    percentage NUMERIC(5,2) GENERATED ALWAYS AS (
+        (attended_hours * 100.0) / NULLIF(total_hours,0)
+    ) STORED
+);
 students = [
     (23,351,448),
     (39,391,448),
